@@ -1,12 +1,12 @@
 // @ts-nocheck
 /* eslint-disable no-restricted-syntax */
 import swc from "@swc/core";
-import crypto from "crypto";
 import { build } from "esbuild";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import yargs from "yargs-parser";
+import { execSync } from "child_process";
 
 import { printBuildSuccess } from "./util.mjs";
 
@@ -112,7 +112,7 @@ const config = {
 
 export async function buildBundle() {
     context = {
-        hash: crypto.randomBytes(8).toString("hex").slice(0, 7)
+        hash: execSync("git rev-parse --short HEAD").toString().trim()
     };
 
     const initialStartTime = performance.now();
